@@ -31,3 +31,37 @@ def graficar(self):
         plt.show(block=False)
         plt.pause(3)
         plt.close()
+
+def operaciones(self):
+        print(self.df.select_dtypes(include='number').columns)
+        c1 = input("Columna 1: ")
+        c2 = input("Columna 2: ")
+
+        if c1 not in self.df.columns or c2 not in self.df.columns:
+            print("Columnas inválidas")
+            return
+
+        self.df['apply'] = self.df[c1].apply(lambda x: x*2)
+        self.df['map'] = self.df[c1].map(lambda x: x/2)
+        self.df['suma'] = self.df[c1] + self.df[c2]
+
+        print(self.df[[c1,c2,'apply','map','suma']].head())
+
+def remuestreo(self):
+        print(self.df.select_dtypes(include='number').columns)
+        col = input("Columna: ")
+
+        if col not in self.df.columns:
+            print("Columna inválida")
+            return
+
+        d = self.df[col].resample('D').mean()
+        m = self.df[col].resample('M').mean()
+        t = self.df[col].resample('Q').mean()
+
+        plt.plot(d, label="Diario")
+        plt.plot(m, label="Mensual")
+        plt.plot(t, label="Trimestral")
+        plt.legend()
+        plt.savefig("remuestreo.png")
+        plt.show()
