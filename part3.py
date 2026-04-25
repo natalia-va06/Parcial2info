@@ -1,0 +1,33 @@
+def mostrar_info(self):
+        print(self.df.info())
+        print(self.df.describe())
+
+def graficar(self):
+        print("Columnas disponibles:")
+        print(self.df.select_dtypes(include='number').columns)
+
+        col = input("Elija columna: ")
+
+        if col not in self.df.columns:
+            print("Columna inválida")
+            return
+
+        fig, ax = plt.subplots(1, 3, figsize=(12,4))
+
+        self.df[col].plot(ax=ax[0], title="Plot")
+        self.df[col].plot(kind='box', ax=ax[1], title="Boxplot")
+        self.df[col].plot(kind='hist', ax=ax[2], title="Hist")
+        
+        ax[0].set_xlabel("Tiempo")
+        ax[0].set_ylabel("Valor")
+
+        ax[1].set_ylabel("Valor")
+
+        ax[2].set_xlabel("Valor")
+        ax[2].set_ylabel("Frecuencia")
+
+        plt.tight_layout()
+        plt.savefig("siata_graficos.png")
+        plt.show(block=False)
+        plt.pause(3)
+        plt.close()
